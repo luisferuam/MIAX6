@@ -55,11 +55,11 @@ class DataGeneratorNonLinear1D(object):
         self.x = xmin + np.random.rand(n, 1)*(xmax - xmin)
         exponents = np.arange(self.ncoefs)[None, :]
         powers = self.x**exponents
-        #self.t = self.a*self.x + self.b + np.random.randn(n, 1)*noise
         self.t = np.sum(self.coefs*powers, axis=1) + np.random.randn(n, 1)*noise
         inc = (xmax-xmin)/100.0
         self.modelx = np.arange(xmin, xmax+inc, inc)[:, None]
-        self.modely = self.a*self.modelx + self.b
+        powers = self.modelx**exponents
+        self.modely = np.sum(self.coefs*powers, axis=1)
 
     def plot_dataset(self, include_generator=True, estimation=None):
         plt.figure(figsize=(6, 6))
