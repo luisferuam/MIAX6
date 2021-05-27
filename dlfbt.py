@@ -21,8 +21,8 @@ class DataGeneratorLinear1D(object):
         self.modely = self.a*self.modelx + self.b
 
     def plot_dataset(self, include_generator=True, estimation=None):
-        plt.figure(figsize=(5, 5))
         plt.plot(self.x, self.t, '.', label='data points')
+        plt.figure(figsize=(5, 5))
         if include_generator:
             plt.plot(self.modelx, self.modely, 'r-', label='true model')
         if estimation is not None:
@@ -55,10 +55,7 @@ class DataGeneratorNonLinear1D(object):
         self.x = xmin + np.random.rand(n, 1)*(xmax - xmin)
         exponents = np.arange(self.ncoefs)[None, :]
         powers = self.x**exponents
-        print(powers.shape)
-        print(self.coefs.shape)
         self.t = np.sum(self.coefs*powers, axis=1, keepdims=True) + np.random.randn(n, 1)*noise
-        print(self.t.shape)
         inc = (xmax-xmin)/100.0
         self.modelx = np.arange(xmin, xmax+inc, inc)[:, None]
         powers = self.modelx**exponents
