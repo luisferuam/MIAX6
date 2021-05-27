@@ -55,7 +55,9 @@ class DataGeneratorNonLinear1D(object):
         self.x = xmin + np.random.rand(n, 1)*(xmax - xmin)
         exponents = np.arange(self.ncoefs)[None, :]
         powers = self.x**exponents
+        print(powers.shape)
         self.t = np.sum(self.coefs*powers, axis=1) + np.random.randn(n, 1)*noise
+        print(self.t.shape)
         inc = (xmax-xmin)/100.0
         self.modelx = np.arange(xmin, xmax+inc, inc)[:, None]
         powers = self.modelx**exponents
