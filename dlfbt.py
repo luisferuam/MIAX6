@@ -44,6 +44,37 @@ class DataGeneratorLogistic1D(DataGeneratorLinear1D):
         self.modely = sigmoid(self.modely)
 
 #-----------------------------------------------------------------------------------
+class DataGeneratorNonLinear1D(object):
+    def __init__(self, coefs=[0, 0, 1]):
+        self.coefs = np.array(coefs)[None, :]
+        self.ncoefs = len(coefs)
+
+    def create_dataset(self, xmin=0.0, xmax=10.0, noise=2.0, n=100, seed=None):
+        if seed is not None:
+            np.random.seed(seed)
+        self.x = xmin + np.random.rand(n, 1)*(xmax - xmin)
+        exponents = np.arange(self.ncoefs)[None, :]
+        powers = self.x**exponents
+        #self.t = self.a*self.x + self.b + np.random.randn(n, 1)*noise
+        self.t = np.sum(self.coefs*powers, axis=1) + np.random.randn(n, 1)*noise
+        inc = (xmax-xmin)/100.0
+        self.modelx = np.arange(xmin, xmax+inc, inc)[:, None]
+        self.modely = self.a*self.modelx + self.b
+
+    def plot_dataset(self, include_generator=True, estimation=None):
+        plt.figure(figsize=(6, 6))
+        plt.plot(self.x, self.t, 'o', label='data points')
+        if include_generator:
+            plt.plot(self.modelx, self.modely, 'r-', label='true model')
+        if estimation is not None:
+            plt.plot(estimation[0], estimation[1], 'm-', label='estimation')
+        plt.grid(True)
+        plt.xlabel("x")
+        plt.ylabel("t")
+        plt.legend()
+        plt.show()
+
+#-----------------------------------------------------------------------------------
 class DataGeneratorLinear(object):
     def __init__(self, a=[2.0], b=1.0):
         self.dim = len(a)
