@@ -21,8 +21,8 @@ class DataGeneratorLinear1D(object):
         self.modely = self.a*self.modelx + self.b
 
     def plot_dataset(self, include_generator=True, estimation=None):
-        plt.figure(figsize=(6, 6))
-        plt.plot(self.x, self.t, 'o', label='data points')
+        plt.figure(figsize=(5, 5))
+        plt.plot(self.x, self.t, '.', label='data points')
         if include_generator:
             plt.plot(self.modelx, self.modely, 'r-', label='true model')
         if estimation is not None:
